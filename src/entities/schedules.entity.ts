@@ -18,7 +18,7 @@ export class Schedule {
   date: Date;
 
   @Column("time")
-  time: Timestamp;
+  hour: Timestamp;
 
   @ManyToOne((type) => Property, (property) => property.schedules)
   property: Property;
