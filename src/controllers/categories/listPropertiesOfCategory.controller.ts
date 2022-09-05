@@ -8,8 +8,12 @@ const listPropertiesOfCategoryController = async (
 ) => {
     try {
         const { id } = req.params;
-        const properties = await listPropertiesOfCategoryService(id);
-        return res.status(200).json(properties);
+        const serviceResponse = await listPropertiesOfCategoryService(id);
+        return res.status(200).json({
+            id,
+            name: serviceResponse.name,
+            properties: serviceResponse.properties
+        });
     } catch (err) {
         if (err instanceof AppError) {
             handleError(err, res);

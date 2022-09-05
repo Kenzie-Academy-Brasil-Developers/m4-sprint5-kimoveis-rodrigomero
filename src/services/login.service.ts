@@ -11,7 +11,7 @@ const loginService = async ({ email, password }: IUserLogin) => {
     const user = await userRepo.findOne({ where: { email } });
 
     if (!user) {
-        throw new AppError(401, "invalid email or password");
+        throw new AppError(403, "invalid email or password");
     }
     if (!user.isActive) {
         throw new AppError(401, "User inactive");
@@ -22,14 +22,14 @@ const loginService = async ({ email, password }: IUserLogin) => {
     }
 
     if (!passwordMatch) {
-        throw new AppError(401, "invalid email or password");
+        throw new AppError(403, "invalid email or password");
     }
-
+    
     const token = jwt.sign(
         {
             isAdm: user.isAdm,
             email: user.email,
-            userId: user.id,
+            id: user.id,
         },
         process.env.SECRET_KEY as string,
         {

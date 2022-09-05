@@ -1,14 +1,14 @@
 import { Router } from "express";
-import propertyListController from "../controllers/properties/propertyList.controller";
 import scheduleCreateController from "../controllers/schedules/scheduleCreate.controller";
+import scheduleListController from "../controllers/schedules/scheduleList.controller";
 
 import authMiddleware from "../middlewares/auth.middleware";
 
 const routes = Router();
 
 export const schedulesRoutes = () => {
-    routes.post("/", scheduleCreateController);
-    routes.get("/", authMiddleware, propertyListController);
+    routes.post("/", authMiddleware, scheduleCreateController);
+    routes.get("/properties/:id", authMiddleware, scheduleListController);
 
     return routes;
 };

@@ -4,10 +4,11 @@ import listUsersService from "../../services/users/listUsers.service";
 
 const listUsersController = async (req: Request, res: Response) => {
     try {
-        const isAdm = req.body.decoded;
+        const isAdm = req.body.decoded.isAdm;
+        
         if (!isAdm) {
             return res
-                .status(401)
+                .status(403)
                 .json({ message: "User is not Admnistrator" });
         }
         const users = await listUsersService();

@@ -18,7 +18,7 @@ const userCreateService = async ({
     }
 
     if (emailAlreadyExists) {
-        throw new AppError(409, "Email already registered");
+        throw new AppError(400, "Email already registered");
     }
 
     const newUser = new User();

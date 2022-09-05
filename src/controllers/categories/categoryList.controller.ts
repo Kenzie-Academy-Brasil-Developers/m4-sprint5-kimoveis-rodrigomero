@@ -6,7 +6,7 @@ const categoryListController = async (req: Request, res: Response) => {
     try {
         const categories = await categoryListService();
 
-        return categories;
+        return res.status(200).json(categories);
     } catch (err) {
         if (err instanceof AppError) {
             handleError(err, res);

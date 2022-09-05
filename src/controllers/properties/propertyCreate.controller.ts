@@ -5,7 +5,7 @@ import propertyCreateService from "../../services/properties/propertyCreate.serv
 const propertyCreateController = async (req: Request, res: Response) => {
     try {
         if (!req.body.decoded.isAdm) {
-            return res.status(401).json({ message: "not authorized" });
+            return res.status(403).json({ message: "not authorized" });
         }
 
         const { value, size, address, categoryId } = req.body;
@@ -17,7 +17,7 @@ const propertyCreateController = async (req: Request, res: Response) => {
             categoryId,
         });
 
-        return property;
+        return res.status(201).json(property);
     } catch (err) {
         if (err instanceof AppError) {
             handleError(err, res);

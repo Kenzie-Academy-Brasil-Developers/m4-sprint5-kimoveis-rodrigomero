@@ -17,14 +17,14 @@ const propertyCreateService = async ({
 
     const category = await catRepo.findOneBy({ id: categoryId });
     if (!category) {
-        throw new AppError(409, "Invalid category");
+        throw new AppError(404, "Invalid category");
     }
     const addressInUse = await propRepo.findOneBy({ address });
     if (addressInUse) {
-        throw new AppError(409, "Address in use");
+        throw new AppError(400, "Address in use");
     }
     if (address.state.length > 2 || address.zipCode.length > 8) {
-        throw new AppError(409, "Invalid state or zip code");
+        throw new AppError(400, "Invalid state or zip code");
     }
 
     const newAddress = new Address();

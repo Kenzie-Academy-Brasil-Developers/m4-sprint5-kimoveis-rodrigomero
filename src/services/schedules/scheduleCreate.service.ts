@@ -19,21 +19,36 @@ const scheduleCreateService = async ({
     const property = await propRepo.findOneBy({ id: propertyId });
 
     if (!user || !property) {
-        throw new AppError(409, "Invalid user or property");
+        throw new AppError(404, "Invalid user or property");
     }
 
-    const sameHour = property.schedules.find(
-        (schedule) => schedule.date === schedule.date && schedule.hour === hour
+    const schedulesCreated = await scheduleRepo.find({where: {property}})
+
+    const sameDate = schedulesCreated.find(
+        (schedule) => schedule.date === date
     );
-    if (sameHour) {
-        throw new AppError(409, "Time already reserved");
+
+    
+    const sameHour = schedulesCreated.find(
+        (schedule) => schedule.hour === hour
+    );
+    
+    console.log(sameDate)
+    console.log(sameHour)
+    if (sameHour && sameDate) {
+        throw new AppError(400, "Time already reserved");
     }
 
+    
     const schedule = new Schedule();
     schedule.date = date;
     schedule.hour = hour;
     schedule.user = user;
     schedule.property = property;
+
+    scheduleRepo.create(schedule);
+    await scheduleRepo.save(schedule);
+    return schedule;
 };
 
 export default scheduleCreateService;

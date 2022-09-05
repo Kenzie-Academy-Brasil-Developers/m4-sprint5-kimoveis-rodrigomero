@@ -4,10 +4,12 @@ import "dotenv/config";
 
 
 const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
-    const token = req.headers.authorization?.split(" ")[0];
+    let token = req.headers.authorization
     if (!token) {
-        return res.status(401).json("Missing Authorization token");
+        return res.status(401).json({message:"Missing Authorization token"});
     }
+    token = token.split(" ")[1];
+    
     jwt.verify(
         token,
         process.env.SECRET_KEY as string,
@@ -17,13 +19,13 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
                     message: "invalid token",
                 });
             }
-
             req.body.decoded = {
                 isAdm: decoded.isAdm,
                 email: decoded.email,
                 userId: decoded.id
             };
-
+            
+            
             next();
         }
     );
