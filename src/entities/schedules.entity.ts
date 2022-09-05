@@ -14,11 +14,11 @@ export class Schedule {
   @PrimaryColumn("uuid")
   readonly id: string;
 
-  @CreateDateColumn()
-  date: Date;
+  @Column()
+  date: string;
 
-  @Column("time")
-  hour: Timestamp;
+  @Column()
+  hour: string;
 
   @ManyToOne((type) => Property, (property) => property.schedules)
   property: Property;
